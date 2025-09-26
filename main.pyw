@@ -2,14 +2,15 @@ import tkinter as tk
 import os
 
 class StyleEditor:
-    def __init__(self, font_family, font_size, color):
+    def __init__(self, font_family, font_size, color, weight = 400):
         self.font_family = font_family
         self.font_size = font_size
         self.color = color
+        self.weight = weight
 
     def use(self, input, x, y):
         return (f'<text xml:space="preserve" x="{x}" y="{y}" dominant-baseline="hanging" '
-        f'style="font-size:{self.font_size}pt; fill:{self.color}; font-family:\'{self.font_family}\', monospace; white-space:pre;">'
+        f'style="font-size:{self.font_size}pt; fill:{self.color}; font-family:\'{self.font_family}\', monospace; font-weight: {self.weight}; white-space:pre;">'
         f'{input}</text>')
 
 class CodeHighlighter:
