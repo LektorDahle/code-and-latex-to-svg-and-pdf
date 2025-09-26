@@ -1,4 +1,5 @@
 import tkinter as tk
+import os
 
 class StyleEditor:
     def __init__(self, font_family, font_size, color):
@@ -8,7 +9,7 @@ class StyleEditor:
 
     def use(self, input, x, y):
         return (f'<text xml:space="preserve" x="{x}" y="{y}" dominant-baseline="hanging" '
-        f'style="font-size:{self.font_size}pt; fill:{self.color};">'
+        f'style="font-size:{self.font_size}pt; fill:{self.color}; font-family:\'{self.font_family}\', monospace; white-space:pre;">'
         f'{input}</text>')
 
 class CodeHighlighter:
@@ -35,11 +36,13 @@ class CodeHighlighter:
         parts.append(
             f'<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" xml:space="preserve">'
         )
-        parts.append(f'  <rect x="0" y="0" width="500" height="500" fill="#ffffff"/>')
+        parts.append(f'<rect x="0" y="0" width="500" height="500" fill="#ffffff"/>')
         parts.append(self.s.use("Hei", 5, 5))
         parts.append("</svg>")
         svg = "\n".join(parts)
-        with open("name.svg","w",encoding="utf-8") as f:
+        filename = f'./svg/{self.filename_var.get().strip()}.svg'
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        with open(filename ,"w",encoding="utf-8") as f:
             f.write(svg)
 
 
