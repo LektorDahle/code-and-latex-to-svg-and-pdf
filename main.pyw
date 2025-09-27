@@ -22,7 +22,50 @@ class StyleEditor:
         f'style="font-size:{self.font_size}pt; fill:{self.color}; font-family:\'{self.font_family}\', monospace; font-weight: {self.weight}; white-space:pre;">'
         f'{input}</text>')
 
+class NewStyle:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.geometry("1200x50")
+        tk.Label(self.root, text = "Style Name: ").pack(side = "left")
+        self.stylename = tk.StringVar(value = "New Style")
+        tk.Entry(self.root, textvariable = self.stylename, width = 28).pack(side = "left", padx = (6, 12))
+        
+        tk.Label(self.root, text = "Family: ").pack(side = "left")
+        self.font_family = tk.StringVar(value = "Arial")
+        tk.Entry(self.root, textvariable = self.font_family, width = 28).pack(side = "left", padx = (6, 12))
+        
+        tk.Label(self.root, text = "Size: ").pack(side = "left")
+        self.font_size = tk.StringVar(value = "12")
+        tk.Entry(self.root, textvariable = self.font_size, width = 10).pack(side = "left", padx = (6, 12))
+        
+        tk.Label(self.root, text = "Color: ").pack(side = "left")
+        self.color = tk.StringVar(value = "#000000")
+        tk.Entry(self.root, textvariable = self.color, width = 10).pack(side = "left", padx = (6, 12))
+        
+        tk.Label(self.root, text = "Weight: ").pack(side = "left")
+        self.weight = tk.StringVar(value = "400")
+        tk.Entry(self.root, textvariable = self.weight, width = 10).pack(side = "left", padx = (6, 12))
+        
+        tk.Button(self.root, text = "Add style", command = self.add_style).pack(side = "left")
+        self.root.mainloop()
+    def add_style(self):
+        name = self.stylename.get().strip()
+        spec = {
+            "font_family": self.font_family.get().strip(),
+            "font_size_pt": int(self.font_size.get()),
+            "color": self.color.get().strip(),
+            "weight": int(self.weight.get()),
+            }
+        try:
+            with open(_STYLES_PATH, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            data = {"schema_version": 1, "styles": {}}
 
+        data["styles"][name] = spec
+
+        with open(_STYLES_PATH, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
 
 class CodeHighlighter:
     def __init__(self):
@@ -43,7 +86,7 @@ class CodeHighlighter:
              font_size = spec["font_size_pt"],
              color = spec["color"],
              weight = spec["weight"],
-        ))
+            ))
 
     def build_ui(self):
         self.root = tk.Tk()

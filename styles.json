@@ -12,6 +12,12 @@
       "font_size_pt": 12,
       "color": "#aaaaaa",
       "weight": 400
+    },
+    "SomeThing": {
+      "font_family": "Arial",
+      "font_size_pt": 12,
+      "color": "#000000",
+      "weight": 400
     }
   }
 }
