@@ -12,7 +12,7 @@ class StyleEditor:
         self.color = color
         self.weight = weight
         root = tk.Tk()
-        f = tkfont.Font(family=self.font_family, size=self.font_size)
+        f = tkfont.Font(family = self.font_family, size = self.font_size)
         self.character_width = f.measure("0"*100) / 100
         self.line_height = f.metrics("linespace")
         root.destroy()
@@ -27,23 +27,23 @@ class NewStyle:
         self.root = tk.Toplevel(root)
         self.root.geometry("1200x50")
         tk.Label(self.root, text = "Style Name: ").pack(side = "left")
-        self.stylename = tk.StringVar(master=self.root, value = "New Style")
+        self.stylename = tk.StringVar(master = self.root, value = "New Style")
         tk.Entry(self.root, textvariable = self.stylename, width = 28).pack(side = "left", padx = (6, 12))
         
         tk.Label(self.root, text = "Family: ").pack(side = "left")
-        self.font_family = tk.StringVar(master=self.root, value = "Arial")
+        self.font_family = tk.StringVar(master = self.root, value = "Arial")
         tk.Entry(self.root, textvariable = self.font_family, width = 28).pack(side = "left", padx = (6, 12))
         
         tk.Label(self.root, text = "Size: ").pack(side = "left")
-        self.font_size = tk.StringVar(master=self.root, value = "12")
+        self.font_size = tk.StringVar(master = self.root, value = "12")
         tk.Entry(self.root, textvariable = self.font_size, width = 10).pack(side = "left", padx = (6, 12))
         
         tk.Label(self.root, text = "Color: ").pack(side = "left")
-        self.color = tk.StringVar(master=self.root, value = "#000000")
+        self.color = tk.StringVar(master = self.root, value = "#000000")
         tk.Entry(self.root, textvariable = self.color, width = 10).pack(side = "left", padx = (6, 12))
         
         tk.Label(self.root, text = "Weight: ").pack(side = "left")
-        self.weight = tk.StringVar(master=self.root, value = "400")
+        self.weight = tk.StringVar(master = self.root, value = "400")
         tk.Entry(self.root, textvariable = self.weight, width = 10).pack(side = "left", padx = (6, 12))
         
         tk.Button(self.root, text = "Add style", command = self.add_style).pack(side = "left")
@@ -58,17 +58,19 @@ class NewStyle:
             "weight": int(self.weight.get()),
             }
         try:
-            with open(_STYLES_PATH, "r", encoding="utf-8") as f:
+            with open(_STYLES_PATH, "r", encoding = "utf-8") as f:
                 data = json.load(f)
         except FileNotFoundError:
             data = {"schema_version": 1, "styles": {}}
 
         data["styles"][name] = spec
 
-        with open(_STYLES_PATH, "w", encoding="utf-8") as f:
+        with open(_STYLES_PATH, "w", encoding = "utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         self.root.destroy()
 
+class GREP:
+    
 
 class CodeHighlighter:
     def __init__(self):
@@ -110,7 +112,7 @@ class CodeHighlighter:
         raw = self.txt.get("1.0", "end-1c")
         lines = raw.splitlines() or [""]
         expanded = [l.replace("\t", "    ") for l in lines]
-        parts=[]
+        parts = []
         parts.append(
             f'<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" xml:space="preserve">')
         parts.append(f'<rect x="0" y="0" width="500" height="500" fill="#ffffff"/>')

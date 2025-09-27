@@ -1,35 +1,66 @@
 {
-  "schema_version": 1,
-  "styles": {
-    "default": {
-      "font_family": "Clincher Mono",
-      "font_size_pt": 12,
-      "color": "#280064",
-      "weight": 400
+    "schema_version": 1,
+    "styles": {
+        "default": {
+            "font_family": "Clincher Mono",
+            "font_size_pt": 12,
+            "color": "#280064",
+            "weight": 400
+        },
+        "comment": {
+            "font_family": "Clincher Mono",
+            "font_size_pt": 12,
+            "color": "#aaaaaa",
+            "weight": 400
+        },
+        "SomeThing": {
+            "font_family": "Arial",
+            "font_size_pt": 12,
+            "color": "#000000",
+            "weight": 400
+        },
+        "New Style": {
+            "font_family": "Arial",
+            "font_size_pt": 12,
+            "color": "#000000",
+            "weight": 400
+        },
+        "SSSS": {
+            "font_family": "Arial",
+            "font_size_pt": 12,
+            "color": "#000000",
+            "weight": 800
+        }
     },
-    "comment": {
-      "font_family": "Clincher Mono",
-      "font_size_pt": 12,
-      "color": "#aaaaaa",
-      "weight": 400
+    "rules": {
+        "Quoted strings": {
+            "type": "range",
+            "start": "\"",
+            "end": "\"",
+            "escape": "\\",
+            "include_delimiters": true,
+            "multiline": false,
+            "style": "string",
+            "priority": 2,
+            "enabled": true
+        }
     },
-    "SomeThing": {
-      "font_family": "Arial",
-      "font_size_pt": 12,
-      "color": "#000000",
-      "weight": 400
-    },
-    "New Style": {
-      "font_family": "Arial",
-      "font_size_pt": 12,
-      "color": "#000000",
-      "weight": 400
-    },
-    "SSSS": {
-      "font_family": "Arial",
-      "font_size_pt": 12,
-      "color": "#000000",
-      "weight": 800
+    "wordRules": {
+        "import": {
+            "type": "word",
+            "style": "keyword",
+            "priority": 1,
+            "whole_word": true,
+            "case": "sensitive",
+            "enabled": true
+        },
+        "return": {
+            "type": "word",
+            "style": "keyword",
+            "priority": 1,
+            "whole_word": true,
+            "case": "sensitive",
+            "enabled": true
+        }
     }
-  }
 }
