@@ -33,34 +33,30 @@
         }
     },
     "rules": {
-        "Quoted strings": {
-            "type": "range",
+        "strings": {
+            "language": "Python",
             "start": "\"",
             "end": "\"",
-            "escape": "\\",
-            "include_delimiters": true,
+            "multiline": true,
+            "style": "comment",
+            "priority": 2
+        },
+         "comments": {
+            "start": "#",
+            "end": "\n",
             "multiline": false,
-            "style": "string",
-            "priority": 2,
-            "enabled": true
+            "style": "default",
+            "priority": 2
         }
     },
     "wordRules": {
         "import": {
-            "type": "word",
-            "style": "keyword",
-            "priority": 1,
-            "whole_word": true,
-            "case": "sensitive",
-            "enabled": true
+            "style": "comment",
+            "priority": 1
         },
         "return": {
-            "type": "word",
-            "style": "keyword",
-            "priority": 1,
-            "whole_word": true,
-            "case": "sensitive",
-            "enabled": true
+            "style": "default",
+            "priority": 1
         }
     }
 }

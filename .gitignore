@@ -1,3 +1,6 @@
 *.ttf
 *.otf
 /svg
+/text
+/pdf
+/png

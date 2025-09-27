@@ -69,9 +69,6 @@ class NewStyle:
             json.dump(data, f, ensure_ascii=False, indent=2)
         self.root.destroy()
 
-class GREP:
-    
-
 class CodeHighlighter:
     def __init__(self):
         self.line_height = 1.65*12
@@ -107,28 +104,39 @@ class CodeHighlighter:
         tk.Button(bar, text = "New Style", command=lambda: NewStyle(self.root)).pack(side = "left")
 
         self.root.mainloop()
+    
+    def grep(self, input, output):
+        with open(_STYLES_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        self.word_rules = data["wordRules"]
+        self.styles = data["styles"]   
+        row = 5
+        for i in input:
+            col = 5
+            for j in i.split(" "):
+                char_width = 0
+                word = j 
+                rule = self.word_rules.get(word) 
+                style_name = rule["style"] if rule else "default" 
+                spec = self.styles[style_name]
+                style = StyleEditor(spec["font_family"], spec["font_size_pt"], spec["color"], spec["weight"])
+                output.append(style.use(word, col, row))
+                char_width = style.character_width
+                col += len(j) * char_width + char_width
+            row += self.line_height
+        return output
+
 
     def compile(self):
-        raw = self.txt.get("1.0", "end-1c")
-        lines = raw.splitlines() or [""]
-        expanded = [l.replace("\t", "    ") for l in lines]
         parts = []
         parts.append(
             f'<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" xml:space="preserve">')
         parts.append(f'<rect x="0" y="0" width="500" height="500" fill="#ffffff"/>')
-        row = 5
-        for i in expanded:
-            col = 5
-            for j in i.split(" "):
-                char_width = 0
-                if j == "jeg" or j == "Jeg":
-                    parts.append(self.comment.use(j, col, row))
-                    char_width = self.comment.character_width
-                else:
-                    parts.append(self.default.use(j, col, row))
-                    char_width = self.default.character_width
-                col += len(j) * char_width + char_width
-            row += self.line_height
+
+        raw = self.txt.get("1.0", "end-1c")
+        lines = raw.splitlines() or [""]
+        expanded = [l.replace("\t", "    ") for l in lines]
+        self.grep(expanded, parts)
         parts.append("</svg>")
         svg = "\n".join(parts)
         filename = f'./svg/{self.filename_var.get().strip()}.svg'
