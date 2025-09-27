@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "styles": {
+    "default": {
+      "font_family": "Clincher Mono",
+      "font_size_pt": 12,
+      "color": "#280064",
+      "weight": 400
+    },
+    "comment": {
+      "font_family": "Clincher Mono",
+      "font_size_pt": 12,
+      "color": "#aaaaaa",
+      "weight": 400
+    }
+  }
+}

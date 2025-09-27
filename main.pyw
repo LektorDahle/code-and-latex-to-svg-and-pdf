@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import font as tkfont
 import os
+import json, pathlib
+_STYLES_PATH = pathlib.Path(__file__).with_name("styles.json")
+
 
 class StyleEditor:
     def __init__(self, font_family, font_size, color, weight = 400):
@@ -19,13 +22,29 @@ class StyleEditor:
         f'style="font-size:{self.font_size}pt; fill:{self.color}; font-family:\'{self.font_family}\', monospace; font-weight: {self.weight}; white-space:pre;">'
         f'{input}</text>')
 
+
+
 class CodeHighlighter:
     def __init__(self):
         self.line_height = 1.65*12
-        self.s = StyleEditor("Clincher Mono", "12", "#ff0000")
-        self.r = StyleEditor("Clincher Mono", "12", "#33ff00")
+        self.get_styles()
         self.build_ui()
     
+    def load_styles(self, path: str | pathlib.Path = _STYLES_PATH):
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("styles", {})
+
+    def get_styles(self):
+        styles = self.load_styles()
+        for name, spec in styles.items():
+            setattr(self, name, StyleEditor(
+             font_family = spec["font_family"],
+             font_size = spec["font_size_pt"],
+             color = spec["color"],
+             weight = spec["weight"],
+        ))
+
     def build_ui(self):
         self.root = tk.Tk()
         bar = tk.Frame(self.root)
@@ -44,12 +63,9 @@ class CodeHighlighter:
         raw = self.txt.get("1.0", "end-1c")
         lines = raw.splitlines() or [""]
         expanded = [l.replace("\t", "    ") for l in lines]
-        
-
         parts=[]
         parts.append(
-            f'<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" xml:space="preserve">'
-        )
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" xml:space="preserve">')
         parts.append(f'<rect x="0" y="0" width="500" height="500" fill="#ffffff"/>')
         row = 5
         for i in expanded:
@@ -57,11 +73,11 @@ class CodeHighlighter:
             for j in i.split(" "):
                 char_width = 0
                 if j == "jeg" or j == "Jeg":
-                    parts.append(self.r.use(j, col, row))
-                    char_width = self.r.character_width
+                    parts.append(self.comment.use(j, col, row))
+                    char_width = self.comment.character_width
                 else:
-                    parts.append(self.s.use(j, col, row))
-                    char_width = self.s.character_width
+                    parts.append(self.default.use(j, col, row))
+                    char_width = self.default.character_width
                 col += len(j) * char_width + char_width
             row += self.line_height
         parts.append("</svg>")
