@@ -139,10 +139,13 @@ class CodeHighlighter:
         self.grep(expanded, parts)
         parts.append("</svg>")
         svg = "\n".join(parts)
-        filename = f'./svg/{self.filename_var.get().strip()}.svg'
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
-        with open(filename ,"w",encoding="utf-8") as f:
+        filename_svg = f'./svg/{self.filename_var.get().strip()}.svg'
+        os.makedirs(os.path.dirname(filename_svg), exist_ok=True)
+        with open(filename_svg ,"w", encoding = "utf-8") as f:
             f.write(svg)
+        filename_txt = f'./txt/{self.filename_var.get().strip()}.txt'
+        with open(filename_txt, "w", encoding = "utf-8") as f:
+            f.write(raw)
 
 
 
